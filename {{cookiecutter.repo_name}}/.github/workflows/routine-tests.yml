@@ -4,27 +4,40 @@ on:
   push:
 
 jobs:
-  flake8-pytest:
+  pytest:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8]
-        poetry-version: [1.5.1]
-        os: [ubuntu-20.04, macos-latest, windows-latest]
-    runs-on: ${{ "{{" }} matrix.os {{ "}}" }}
+        python-version: ['3.8', '3.10', '3.12']
+        # poetry-version: [1.5.1]
+        # os: [ubuntu-20.04, macos-latest, windows-latest]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
         with:
-          python-version: ${{ "{{" }} matrix.python-version {{ "}}" }}
-      - uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: ${{ "{{" }} matrix.poetry-version {{ "}}" }}
-      - name: Install packages
-        run: poetry install  # --no-dev
-      - name: Run flake8
+          python-version: ${{ matrix.python-version }}
+      - name: Python Setup Rye
+        uses:  eifinger/setup-rye@v1
+        # with:
+          # enable-cache: true
+          # working-directory: set-env
+      - name: rye help
         run: |
-          poetry run flake8 {{cookiecutter.pack_name}} --exit-zero
-          # poetry run pytest
+          # /opt/hostedtoolcache/rye/0.16.0/x86_64/shims/rye help  # OK
+          source "/home/runner/work/_temp/rye_temp_home/env"
+          rye help
+          pwd
+          dir
+          rye toolchain fetch 3.12
+          rye toolchain list
+      - name: pin python |
+        # run: rye pin 3.12
+        run: rye pin ${{ matrix.python-version }}
+      - name: rye sync
+        # run: source "/home/runner/work/_temp/rye_temp_home/env" && rye sync
+        run: |
+          # rye build
+          rye sync
       - name: Run pytest
-        run: poetry run pytest tests
+        run: rye run pytest
