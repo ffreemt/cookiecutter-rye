@@ -39,7 +39,9 @@ packages = ["src/{{cookiecutter.pack_name}}"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q --doctest-modules"
+# addopts = "-ra -q --doctest-modules"
+# -s --capture=no,
+addopts = "-ra -q --doctest-modules -s -p no:warnings"
 log_cli = true
 testpaths = [
     "tests",

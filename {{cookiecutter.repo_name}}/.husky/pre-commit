@@ -3,5 +3,5 @@
 
 # npm test
 # isort --profile black {{cookiecutter.pack_name}}
-black {{cookiecutter.pack_name}}
-ruff . --fix
+black .
+ruff check . --fix
