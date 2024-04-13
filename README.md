@@ -29,13 +29,20 @@ rye sync
 
 # this installs npm-run-all given in package.json
 yarn  # or npm install
+
 ```
+Now you have a project set up and can start coding and change the world for the better;). For exmaple
+
+```
+rye add  httpx
+rye sync  # or much faster:  uv install httpx 
+```
+
+
 
 * Shortcuts are set in package.json. Take a look and get a rough idea. For example
    * `yarn test`
    * `yarn style`: will run `black tests pack_name` and reload when any .py file is modified in `tests` and pack_name directories.
-
-Now you have a project set up and can start coding and change the world for the better;).
 
 * build and publish
   * rye build
