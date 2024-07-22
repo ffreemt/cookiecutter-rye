@@ -7,16 +7,16 @@ jobs:
   pytest:
     strategy:
       fail-fast: false
-      matrix:
+      matrix1:
         python-version: ['3.8', '3.10', '3.12']
         # poetry-version: [1.5.1]
         # os: [ubuntu-20.04, macos-latest, windows-latest]
         os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix1.os }}
     steps:
       - uses: actions/checkout@v3
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix1.python-version }}
       - name: Python Setup Rye
         uses:  eifinger/setup-rye@v1
         # with:
@@ -33,7 +33,7 @@ jobs:
           rye toolchain list
       - name: pin python |
         # run: rye pin 3.12
-        run: rye pin ${{ matrix.python-version }}
+        run: rye pin ${{ matrix1.python-version }}
       - name: rye sync
         # run: source "/home/runner/work/_temp/rye_temp_home/env" && rye sync
         run: |
